@@ -157,7 +157,9 @@ static fd_str *search(int fd)
 	int i;
 	fd_str * entity = NULL;
 	for (i = 0; i < static_fd; i++) {
-		if ((fd_entity[i]->fd == fd) && (fd_entity[i]->flag == 1)) {
+		if ((fd_entity[i] != NULL) &&
+			(fd_entity[i]->fd == fd) &&
+			(fd_entity[i]->flag == 1)) {
 			entity = fd_entity[i];
 			printf("search fd: %d\n", fd);
 			goto out;
@@ -231,8 +233,8 @@ int posix_close(int fd)
 	}
 	lfs_file_close(&(fds->lfs), &(fds->file));
 	fds->flag = 0;
-	//free(fds->c);
-	//free(fds);
+	free(fds->c);
+	free(fds);
 out:
 	return retval;
 }
